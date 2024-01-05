@@ -1,4 +1,6 @@
-const prefix = (code: string) => `PREFIX${code}`;
+import { CONFIGURATION } from './configuration';
+
+const prefix = (code: string) => `${CONFIGURATION.CODE_PREFIX}-${code}`;
 
 export const CODE_MESSAGES = {
   INTERNAL_SERVER_ERROR: {

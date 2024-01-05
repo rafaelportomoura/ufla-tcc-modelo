@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { NextFunction, Request, Response } from 'express';
-import { CODE_MESSAGES } from '../constants/code_messages';
+import { CODE_MESSAGES } from '../constants/codeMessages';
 import { HTTP_STATUS_CODE } from '../constants/httpStatus';
 import { BaseError, InternalServerError } from '../exceptions/errors';
 

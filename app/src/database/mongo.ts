@@ -3,7 +3,7 @@ import { isEmpty } from 'lodash';
 import mongoose from 'mongoose';
 import qs from 'qs';
 import { SecretsManager } from '../aws/secretsManager';
-import { CODE_MESSAGES } from '../constants/code_messages';
+import { CODE_MESSAGES } from '../constants/codeMessages';
 import { CONFIGURATION } from '../constants/configuration';
 import { DatabaseError } from '../exceptions/errors';
 import { Logger } from '../types/Logger';

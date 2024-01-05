@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { CODE_MESSAGES } from '../src/constants/code_messages';
+import { CODE_MESSAGES } from '../src/constants/codeMessages';
 import { HTTP_STATUS_CODE } from '../src/constants/httpStatus';
 import { BadRequestError, InternalServerError } from '../src/exceptions/errors';
 import { error_middleware } from '../src/middlewares/error';

@@ -8,7 +8,7 @@ export interface Logger {
 }
 
 export class CreateLoggerParams {
-  level: keyof Logger;
+  level?: keyof Logger;
 
   metadata: Record<string, unknown>;
 }
