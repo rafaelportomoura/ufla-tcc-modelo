@@ -1,0 +1,4 @@
+{
+  "app/**/*.ts": ["yarn format", "yarn lint --cache --fix", "yarn tsc --noEmit --esModuleInterop"],
+  "stacks/*.yaml": "cfn-lint stacks/*"
+}
