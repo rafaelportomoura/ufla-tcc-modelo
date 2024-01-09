@@ -2,7 +2,8 @@
 import { NextFunction, Request, Response } from 'express';
 import { CODE_MESSAGES } from '../constants/codeMessages';
 import { HTTP_STATUS_CODE } from '../constants/httpStatus';
-import { BaseError, InternalServerError } from '../exceptions/errors';
+import { BaseError } from '../exceptions/BaseError';
+import { InternalServerError } from '../exceptions/InternalServerError';
 
 export const error_middleware = (error: Error, _: Request, response: Response, __: NextFunction) => {
   if (error instanceof BaseError) return response.status(error.status).json(error);

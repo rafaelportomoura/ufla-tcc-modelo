@@ -5,7 +5,7 @@ import qs from 'qs';
 import { SecretsManager } from '../aws/secretsManager';
 import { CODE_MESSAGES } from '../constants/codeMessages';
 import { CONFIGURATION } from '../constants/configuration';
-import { DatabaseError } from '../exceptions/errors';
+import { DatabaseError } from '../exceptions/DatabaseError';
 import { Logger } from '../types/Logger';
 import { MongoSecret } from '../types/MongoSecret';
 
