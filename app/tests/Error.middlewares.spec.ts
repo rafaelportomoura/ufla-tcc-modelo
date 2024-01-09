@@ -1,9 +1,10 @@
 import { expect } from 'chai';
 import { CODE_MESSAGES } from '../src/constants/codeMessages';
 import { HTTP_STATUS_CODE } from '../src/constants/httpStatus';
-import { BadRequestError, InternalServerError } from '../src/exceptions/errors';
+import { BadRequestError } from '../src/exceptions/BadRequestError';
+import { InternalServerError } from '../src/exceptions/InternalServerError';
 import { error_middleware } from '../src/middlewares/error';
-import { MockExpress } from './functions/express';
+import { MockExpress } from './mocks/express';
 
 describe('Unit Test middlewares/error.ts', () => {
   it('Should return base error instance status and json when was call with base error instance', () => {

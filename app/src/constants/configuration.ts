@@ -1,4 +1,4 @@
-import { CreateLoggerParams } from '../types/Logger';
+import { LoggerLevel } from '../types/Logger';
 
 const set_env = <T = string>(key: string, default_value: T): T => (process.env[key] || default_value) as T;
 const set_number_env = (key: string, default_value: number) => Number(set_env(key, default_value));
@@ -10,8 +10,9 @@ export const CONFIGURATION = {
   REGION: set_string_env('REGION', 'us-east-2'),
   MONGO_SECRET: set_string_env('MONGO_SECRET', 'dev/tcc/mongodb'),
   CODE_PREFIX: set_string_env('CODE_PREFIX', 'prefix'),
-  LOG_LEVEL: set_env<CreateLoggerParams['level']>('LOG_LEVEL', 'silly'),
+  LOG_LEVEL: set_env<LoggerLevel>('LOG_LEVEL', 'debug'),
   TTL: set_number_env('TTL', 86400),
   PORT: set_number_env('PORT', 3000),
-  EXAMPLE_TABLE: set_string_env('EXAMPLE_TABLE', 'table')
+  EXAMPLE_TABLE: set_string_env('EXAMPLE_TABLE', 'table'),
+  EVENT_BUS: set_string_env('EVENT_BUS', 'event/bus')
 } as const;

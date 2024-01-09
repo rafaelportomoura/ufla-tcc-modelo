@@ -1,16 +1,16 @@
 import { NextFunction, Request, Response } from 'express';
-import { create_logger } from '../adapters/logger';
+import { Logger } from '../adapters/logger';
 import { GetBusiness } from '../business/get';
 import { create_request_id } from '../utils/createRequestId';
 
 export async function getExampleController(req: Request, res: Response, next: NextFunction): Promise<void> {
-  const logger = create_logger({ metadata: { request_id: create_request_id(req) } });
+  const logger = new Logger(create_request_id(req));
   logger.debug({
     label: 'getExampleController',
     message: req.headers
   });
   try {
-    const business = new GetBusiness();
+    const business = new GetBusiness(logger);
     const response = await business.get();
     res.json(response);
   } catch (error) {

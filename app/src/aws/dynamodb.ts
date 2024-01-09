@@ -29,31 +29,31 @@ export class DynamoDB {
     this.client = DynamoDBDocumentClient.from(new DynamoDBClient({ region }));
   }
 
-  put(input: Omit<PutCommandInput, 'TableName'>): Promise<PutCommandOutput> {
+  protected put(input: Omit<PutCommandInput, 'TableName'>): Promise<PutCommandOutput> {
     const command = new PutCommand({ TableName: this.table, ...input });
 
     return this.client.send(command);
   }
 
-  get(input: Omit<GetCommandInput, 'TableName'>): Promise<GetCommandOutput> {
+  protected get(input: Omit<GetCommandInput, 'TableName'>): Promise<GetCommandOutput> {
     const command = new GetCommand({ TableName: this.table, ...input });
 
     return this.client.send(command);
   }
 
-  scan(input: Omit<ScanCommandInput, 'TableName'>): Promise<ScanCommandOutput> {
+  protected scan(input: Omit<ScanCommandInput, 'TableName'>): Promise<ScanCommandOutput> {
     const command = new ScanCommand({ TableName: this.table, ...input });
 
     return this.client.send(command);
   }
 
-  query(input: Omit<QueryCommandInput, 'TableName'>): Promise<QueryCommandOutput> {
+  protected query(input: Omit<QueryCommandInput, 'TableName'>): Promise<QueryCommandOutput> {
     const command = new QueryCommand({ TableName: this.table, ...input });
 
     return this.client.send(command);
   }
 
-  delete(input: Omit<DeleteCommandInput, 'TableName'>): Promise<DeleteCommandOutput> {
+  protected delete(input: Omit<DeleteCommandInput, 'TableName'>): Promise<DeleteCommandOutput> {
     const command = new DeleteCommand({ TableName: this.table, ...input });
 
     return this.client.send(command);

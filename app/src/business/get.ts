@@ -1,11 +1,17 @@
+import { Logger } from '../adapters/logger';
 /* eslint-disable no-empty-function */
 import { ExampleRepository } from '../repositories/exampleRepository';
 import { Example } from '../types/Example';
 
 export class GetBusiness {
-  constructor(private repository = new ExampleRepository()) {}
+  private repository: ExampleRepository;
+
+  constructor(private logger: Logger) {
+    this.repository = new ExampleRepository(logger);
+  }
 
   async get(): Promise<Example> {
-    return this.repository.get();
+    this.logger.debug('GetBusiness.get()');
+    return this.repository.getExample('id');
   }
 }
