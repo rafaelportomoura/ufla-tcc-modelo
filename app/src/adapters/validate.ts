@@ -1,7 +1,7 @@
+/* eslint-disable no-empty-function */
 import { getClassSchema } from 'joi-class-decorators';
 import { Constructor, JoiValidationGroup } from 'joi-class-decorators/internal/defs';
 import { CODE_MESSAGES } from '../constants/codeMessages';
-/* eslint-disable no-empty-function */
 import { ValidationError } from '../exceptions/ValidationError';
 
 export class Validator {
@@ -13,7 +13,8 @@ export class Validator {
 
     if (error) {
       const { code } = CODE_MESSAGES.VALIDATION_ERROR;
-      const { message } = error.details[0];
+      const { message } = error;
+
       throw new ValidationError({ code, message });
     }
 

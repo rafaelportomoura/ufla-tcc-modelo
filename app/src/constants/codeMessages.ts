@@ -14,5 +14,9 @@ export const CODE_MESSAGES = {
   VALIDATION_ERROR: {
     code: prefix('0002'),
     message: 'Validation Error!'
+  },
+  NOT_FOUND_ERROR: {
+    code: prefix('0002'),
+    message: 'Not Found Error!'
   }
 } as const;

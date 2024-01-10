@@ -2,15 +2,19 @@
 import { isEmpty } from 'lodash';
 import mongoose from 'mongoose';
 import qs from 'qs';
+import { Logger } from '../adapters/logger';
 import { SecretsManager } from '../aws/secretsManager';
 import { CODE_MESSAGES } from '../constants/codeMessages';
 import { CONFIGURATION } from '../constants/configuration';
 import { DatabaseError } from '../exceptions/DatabaseError';
-import { Logger } from '../types/Logger';
 import { MongoSecret } from '../types/MongoSecret';
 
 export class MongoDatabase {
-  constructor(private logger: Logger) {}
+  constructor(private logger = new Logger()) {}
+
+  setLogger(logger: Logger) {
+    this.logger = logger;
+  }
 
   async connect(params_secret?: MongoSecret) {
     try {

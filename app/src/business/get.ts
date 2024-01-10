@@ -4,10 +4,16 @@ import { ExampleRepository } from '../repositories/exampleRepository';
 import { Example } from '../types/Example';
 
 export class GetBusiness {
-  private repository: ExampleRepository;
+  constructor(
+    private logger = new Logger('GetBusiness'),
+    private repository = new ExampleRepository()
+  ) {
+    this.repository.setLogger(logger);
+  }
 
-  constructor(private logger: Logger) {
-    this.repository = new ExampleRepository(logger);
+  setLogger(logger: Logger): void {
+    this.logger = logger;
+    this.repository.setLogger(logger);
   }
 
   async get(): Promise<Example> {

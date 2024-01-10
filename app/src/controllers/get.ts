@@ -5,10 +5,6 @@ import { create_request_id } from '../utils/createRequestId';
 
 export async function getExampleController(req: Request, res: Response, next: NextFunction): Promise<void> {
   const logger = new Logger(create_request_id(req));
-  logger.debug({
-    label: 'getExampleController',
-    message: req.headers
-  });
   try {
     const business = new GetBusiness(logger);
     const response = await business.get();

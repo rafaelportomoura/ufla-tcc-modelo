@@ -1,7 +1,7 @@
 import { Logger } from '../adapters/logger';
 import { SNS } from '../aws/sns';
 import { CONFIGURATION } from '../constants/configuration';
-import { EventBusMessageAttributesDTO } from '../dtos/eventBus';
+import { EventBusMessageAttributes } from '../types/EventBus';
 
 export class EventBus extends SNS {
   constructor(
@@ -11,7 +11,7 @@ export class EventBus extends SNS {
     super();
   }
 
-  async publish(body: unknown, message_attributes: EventBusMessageAttributesDTO): Promise<void> {
+  async publish(body: unknown, message_attributes: EventBusMessageAttributes): Promise<void> {
     this.logger.debug('EventBus.publish(', body, message_attributes, ')');
 
     const response = await this.pub({

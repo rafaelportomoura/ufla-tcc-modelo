@@ -6,8 +6,8 @@ import { JoiSchema, JoiSchemaOptions } from 'joi-class-decorators';
 })
 export class ExampleDTO {
   @JoiSchema(Joi.string().required())
-  id: string;
+  id!: string;
 
   @JoiSchema(Joi.string().required())
-  name: string;
+  name!: string;
 }
