@@ -1,4 +1,4 @@
-# Repositório modelo para criação de microsserviços para o sistema CompraFácil
+# Repositório modelo para criação de microsserviços para o sistema CompraVirtual
 
 Este repositório é um template para começar a desenvolver um microsserviço baseado em Node.js, TypeScript e AWS. Esta estrutura fornece um ponto de partida para criar uma aplicação distribuída, escalável e altamente disponível.
 

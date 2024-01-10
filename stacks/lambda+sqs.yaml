@@ -13,10 +13,10 @@ Parameters:
         AllowedValues:
           - error
           - warn
+          - log
           - info
           - verbose
           - debug
-          - silly
     SecurityGroupIdList:
         Type: List<AWS::EC2::SecurityGroup::Id>
     SubnetIdsList:

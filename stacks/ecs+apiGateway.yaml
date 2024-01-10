@@ -45,10 +45,10 @@ Parameters:
         AllowedValues:
           - error
           - warn
+          - log
           - info
           - verbose
           - debug
-          - silly
     CodePrefix:
         Type: String
     MongoSecret:
