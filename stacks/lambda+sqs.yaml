@@ -21,8 +21,6 @@ Parameters:
         Type: List<AWS::EC2::SecurityGroup::Id>
     SubnetIdsList:
         Type: List<AWS::EC2::Subnet::Id>
-    MongoSecret:
-        Type: String
 
 Globals:
     Function:
@@ -35,7 +33,10 @@ Globals:
                 REGION: !Ref AWS::Region
                 ACCOUNT_NUMBER: !Ref AWS::AccountId
                 MICROSERVICE: !Ref Microservice
-                MONGO_SECRET: !Ref MongoSecret
+                MONGO_SECRET:
+                    Fn::ImportValue: !Sub ${Stage}-${Tenant}-${Microservice}-db-secret
+                MONGO_PARAMS:
+                    Fn::ImportValue: !Sub ${Stage}-${Tenant}-${Microservice}-db-parameter
 
 Resources:
     LambdaRole:
