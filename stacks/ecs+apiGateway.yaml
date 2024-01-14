@@ -9,7 +9,7 @@ Parameters:
         Type: String
     ApiBasePath:
         Type: String
-    VPCId:
+    VpcId:
         Type: AWS::EC2::VPC::Id
         Description: Id of VPC for EC2
     SubnetIdList:
@@ -40,8 +40,6 @@ Parameters:
           - true
           - false
         Default: false
-    MongoSecret:
-        Type: String
     Image:
         Type: String
         Description: ECR Image
@@ -126,6 +124,8 @@ Resources:
                 StackId: !Ref AWS::StackId
                 Region: !Ref AWS::Region
                 Microservice: !Ref Microservice
+                Stage: !Ref Stage
+                Tenant: !Ref Tenant
 
     ApiMapping:
         Type: AWS::ApiGatewayV2::ApiMapping
@@ -133,7 +133,7 @@ Resources:
             ApiId: !Ref Api
             ApiMappingKey: !Ref ApiBasePath
             DomainName:
-                Fn::ImportValue: !Sub ${Stage}-${Tenant}-domain-name
+                Fn::ImportValue: !Sub ${Stage}-${Tenant}-api-gateway-domain-name
             Stage: !Ref ApiStage
 
     ApiDeployment:
@@ -163,6 +163,10 @@ Resources:
                 Value: !Ref AWS::Region
               - Key: Microservice
                 Value: !Ref Microservice
+              - Key: Stage
+                Value: !Ref Stage
+              - Key: Tenant
+                Value: !Ref Tenant
 
     Authorizer:
         Type: AWS::ApiGatewayV2::Authorizer
@@ -207,6 +211,10 @@ Resources:
                 Value: !Ref AWS::Region
               - Key: Microservice
                 Value: !Ref Microservice
+              - Key: Stage
+                Value: !Ref Stage
+              - Key: Tenant
+                Value: !Ref Tenant
 
     # ---------------------------------------------
     # LOAD BALANCER
@@ -240,12 +248,16 @@ Resources:
                 Value: !Ref AWS::Region
               - Key: Microservice
                 Value: !Ref Microservice
+              - Key: Stage
+                Value: !Ref Stage
+              - Key: Tenant
+                Value: !Ref Tenant
 
     LBSecurityGroup:
         Type: AWS::EC2::SecurityGroup
         Properties:
             GroupDescription: Allow http to client host
-            VpcId: !Ref VPCId
+            VpcId: !Ref VpcId
             SecurityGroupIngress:
               - IpProtocol: tcp
                 FromPort: 80
@@ -266,6 +278,10 @@ Resources:
                 Value: !Ref AWS::Region
               - Key: Microservice
                 Value: !Ref Microservice
+              - Key: Stage
+                Value: !Ref Stage
+              - Key: Tenant
+                Value: !Ref Tenant
 
     ListenerHTTPS:
         Type: AWS::ElasticLoadBalancingV2::Listener
@@ -288,7 +304,7 @@ Resources:
               - Key: deregistration_delay.timeout_seconds
                 Value: '60' # default is 300
             TargetType: ip
-            VpcId: !Ref VPCId
+            VpcId: !Ref VpcId
             Tags:
               - Key: Service
                 Value: ElasticLoadBalancingV2
@@ -304,6 +320,10 @@ Resources:
                 Value: !Ref AWS::Region
               - Key: Microservice
                 Value: !Ref Microservice
+              - Key: Stage
+                Value: !Ref Stage
+              - Key: Tenant
+                Value: !Ref Tenant
 
     # ---------------------------------------------
     # FARGATE
@@ -345,6 +365,10 @@ Resources:
                 Value: !Ref AWS::Region
               - Key: Microservice
                 Value: !Ref Microservice
+              - Key: Stage
+                Value: !Ref Stage
+              - Key: Tenant
+                Value: !Ref Tenant
 
     ExecutionRole:
         Type: "AWS::IAM::Role"
@@ -380,6 +404,10 @@ Resources:
                 Value: !Ref AWS::Region
               - Key: Microservice
                 Value: !Ref Microservice
+              - Key: Stage
+                Value: !Ref Stage
+              - Key: Tenant
+                Value: !Ref Tenant
 
 
     # ---------------------------------------------
@@ -409,6 +437,10 @@ Resources:
                 Value: !Ref AWS::Region
               - Key: Microservice
                 Value: !Ref Microservice
+              - Key: Stage
+                Value: !Ref Stage
+              - Key: Tenant
+                Value: !Ref Tenant
 
     TaskDefinition:
         Type: AWS::ECS::TaskDefinition
@@ -431,7 +463,11 @@ Resources:
                   - Name: MICROSERVICE
                     Value: !Ref Microservice
                   - Name: MONGO_SECRET
-                    Value: !Ref MongoSecret
+                    Value:
+                        Fn::ImportValue: !Sub ${Stage}-${Tenant}-${Microservice}-db-secret
+                  - Name: MONGO_PARAMS
+                    Value:
+                        Fn::ImportValue: !Sub ${Stage}-${Tenant}-${Microservice}-db-parameter
                 Image: !Ref Image
                 LogConfiguration:
                     LogDriver: awslogs
@@ -462,12 +498,16 @@ Resources:
                 Value: !Ref AWS::Region
               - Key: Microservice
                 Value: !Ref Microservice
+              - Key: Stage
+                Value: !Ref Stage
+              - Key: Tenant
+                Value: !Ref Tenant
 
     ServiceSecurityGroup:
         Type: AWS::EC2::SecurityGroup
         Properties:
             GroupDescription: Allow http from load balancer
-            VpcId: !Ref VPCId
+            VpcId: !Ref VpcId
             SecurityGroupIngress:
               - IpProtocol: tcp
                 FromPort: 80
@@ -488,6 +528,10 @@ Resources:
                 Value: !Ref AWS::Region
               - Key: Microservice
                 Value: !Ref Microservice
+              - Key: Stage
+                Value: !Ref Stage
+              - Key: Tenant
+                Value: !Ref Tenant
 
     Service:
         Type: AWS::ECS::Service
@@ -525,6 +569,10 @@ Resources:
                 Value: !Ref AWS::Region
               - Key: Microservice
                 Value: !Ref Microservice
+              - Key: Stage
+                Value: !Ref Stage
+              - Key: Tenant
+                Value: !Ref Tenant
 
     # -----------------------------------------------------------
     #  AUTO SCALING
@@ -574,6 +622,10 @@ Resources:
                 Value: !Ref AWS::Region
               - Key: Microservice
                 Value: !Ref Microservice
+              - Key: Stage
+                Value: !Ref Stage
+              - Key: Tenant
+                Value: !Ref Tenant
 
     AutoScalingTarget:
         Type: AWS::ApplicationAutoScaling::ScalableTarget

@@ -4,10 +4,11 @@ import mongoose from 'mongoose';
 import qs from 'qs';
 import { Logger } from '../adapters/logger';
 import { SecretsManager } from '../aws/secretsManager';
+import { SSM } from '../aws/ssm';
 import { CODE_MESSAGES } from '../constants/codeMessages';
 import { CONFIGURATION } from '../constants/configuration';
 import { DatabaseError } from '../exceptions/DatabaseError';
-import { MongoSecret } from '../types/MongoSecret';
+import { MongoParams, MongoSecret } from '../types/MongoSecret';
 
 export class MongoDatabase {
   constructor(private logger = new Logger()) {}
@@ -16,7 +17,7 @@ export class MongoDatabase {
     this.logger = logger;
   }
 
-  async connect(params_secret?: MongoSecret) {
+  async connect(params_secret?: MongoSecret, mongo_params?: MongoParams) {
     try {
       if (mongoose.connection.readyState) return;
 
@@ -26,7 +27,14 @@ export class MongoDatabase {
         secrets = await secret_manager.getSecret<MongoSecret>(CONFIGURATION.MONGO_SECRET);
       }
 
-      const { protocol, host, password, username, database, options } = secrets;
+      let params = mongo_params;
+      if (isEmpty(params)) {
+        const ssm = new SSM();
+        params = await ssm.getParams<MongoParams>(CONFIGURATION.MONGO_PARAMS);
+      }
+
+      const { password, username } = secrets;
+      const { protocol, host, database, options } = params;
 
       const query = !isEmpty(options) ? `?${qs.stringify(options)}` : '';
 

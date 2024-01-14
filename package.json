@@ -27,6 +27,7 @@
     "@aws-sdk/client-secrets-manager": "^3.473.0",
     "@aws-sdk/client-sns": "^3.485.0",
     "@aws-sdk/client-sqs": "^3.438.0",
+    "@aws-sdk/client-ssm": "^3.490.0",
     "@aws-sdk/lib-dynamodb": "^3.438.0",
     "@types/cors": "^2.8.17",
     "@types/lodash": "^4.14.202",

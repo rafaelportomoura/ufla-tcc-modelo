@@ -1,8 +1,10 @@
-export class MongoSecret {
+export type MongoSecret = {
   username: string;
 
   password: string;
+};
 
+export type MongoParams = {
   host: string;
 
   database: string;
@@ -10,4 +12,4 @@ export class MongoSecret {
   protocol: string;
 
   options?: Record<string, string>;
-}
+};
