@@ -1,4 +1,0 @@
-{
-  "app/**/*.ts": ["yarn lint --cache --fix"],
-  "stacks/*.yaml": "cfn-lint stacks/*"
-}
