@@ -1,6 +1,6 @@
 import { CONFIGURATION } from './configuration';
 
-const prefix = (code: string) => `${CONFIGURATION.CODE_PREFIX}-${code}`;
+const prefix = (code: string) => `${CONFIGURATION.MICROSERVICE}-${code}`;
 
 export const CODE_MESSAGES = {
   INTERNAL_SERVER_ERROR: {

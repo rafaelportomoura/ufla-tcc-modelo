@@ -9,7 +9,7 @@ export const CONFIGURATION = {
   TENANT: set_string_env('TENANT', 'tcc'),
   REGION: set_string_env('REGION', 'us-east-2'),
   MONGO_SECRET: set_string_env('MONGO_SECRET', 'dev/tcc/mongodb'),
-  CODE_PREFIX: set_string_env('CODE_PREFIX', 'prefix'),
+  MICROSERVICE: set_string_env('MICROSERVICE', 'prefix'),
   LOG_LEVEL: set_env<LoggerLevel>('LOG_LEVEL', 'debug'),
   TTL: set_number_env('TTL', 86400),
   PORT: set_number_env('PORT', 3000),
