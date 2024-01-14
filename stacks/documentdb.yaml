@@ -61,7 +61,7 @@ Resources:
                 Fn::ToJsonString:
                     database: !Ref Microservice
                     host: !Sub
-                      - ${Endpoint}-${Port}
+                      - ${Endpoint}:${Port}
                       - Endpoint: !GetAtt Cluster.Endpoint
                         Port: !GetAtt Cluster.Port
                     protocol: mongodb
