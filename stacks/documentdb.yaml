@@ -18,7 +18,7 @@ Resources:
     SecretManager:
         Type: AWS::SecretsManager::Secret
         Properties:
-            Name: !Sub ${Stage}-${Tenant}-${Microservice}-db
+            Name: !Sub ${Stage}-${Tenant}-${Microservice}-document-db
             GenerateSecretString:
                 SecretStringTemplate: !Sub '{"username": "${Microservice}"}'
                 GenerateStringKey: "password"
@@ -40,16 +40,16 @@ Resources:
               - Key: Microservice
                 Value: !Ref Microservice
               - Key: Name
-                Value: !Sub ${Stage}-${Tenant}-${Microservice}-db
+                Value: !Sub ${Stage}-${Tenant}-${Microservice}-document-db
 
     Parameter:
         Type: AWS::SSM::Parameter
         Properties:
-            Name: !Sub ${Stage}-${Tenant}-${Microservice}-db
+            Name: !Sub ${Stage}-${Tenant}-${Microservice}-document-db
             Tags:
                 Service: SSM
                 Resource: Parameter
-                Name: !Sub ${Stage}-${Tenant}-${Microservice}-db
+                Name: !Sub ${Stage}-${Tenant}-${Microservice}-document-db
                 StackName: !Ref AWS::StackName
                 StackId: !Ref AWS::StackId
                 Region: !Ref AWS::Region
@@ -132,8 +132,8 @@ Resources:
             DBSubnetGroupName: !Ref SubnetGroup
             EngineVersion: '5.0.0'
             KmsKeyId: String
-            MasterUsername: !Sub '{{resolve:secretsmanager:${Stage}-${Tenant}-${Microservice}-db:SecretString:username}}'
-            MasterUserPassword: !Sub '{{resolve:secretsmanager:${Stage}-${Tenant}-${Microservice}-db:SecretString:password}}'
+            MasterUsername: !Sub '{{resolve:secretsmanager:${Stage}-${Tenant}-${Microservice}-document-db:SecretString:username}}'
+            MasterUserPassword: !Sub '{{resolve:secretsmanager:${Stage}-${Tenant}-${Microservice}-document-db:SecretString:password}}'
             BackupRetentionPeriod: 7
             Tags:
               - Key: Service
@@ -184,27 +184,27 @@ Outputs:
         Description: Cluster
         Value: !Ref Cluster
         Export:
-            Name: !Sub ${Stage}-${Tenant}-${Microservice}-db-cluster
+            Name: !Sub ${Stage}-${Tenant}-${Microservice}-document-db-cluster
     ClusterEndpoint:
         Description: Cluster Endpoint
         Value: !GetAtt Cluster.Endpoint
         Export:
-            Name: !Sub ${Stage}-${Tenant}-${Microservice}-db-cluster-endpoint
+            Name: !Sub ${Stage}-${Tenant}-${Microservice}-document-db-cluster-endpoint
     ClusterPort:
         Description: Cluster Port
         Value: !GetAtt Cluster.Endpoint
         Export:
-            Name: !Sub ${Stage}-${Tenant}-${Microservice}-db-cluster-port
+            Name: !Sub ${Stage}-${Tenant}-${Microservice}-document-db-cluster-port
     DBInstance:
         Description: DBInstance
         Value: !Ref DBInstance
         Export:
-            Name: !Sub ${Stage}-${Tenant}-${Microservice}-db-instance
+            Name: !Sub ${Stage}-${Tenant}-${Microservice}-document-db-instance
     SubnetGroup:
         Description: SubnetGroup
         Value: !Ref SubnetGroup
         Export:
-            Name: !Sub ${Stage}-${Tenant}-${Microservice}-db-subnet-group
+            Name: !Sub ${Stage}-${Tenant}-${Microservice}-document-db-subnet-group
     ParameterGroup:
         Description: ParameterGroup
         Value: !Ref ParameterGroup
@@ -212,11 +212,11 @@ Outputs:
             Name: !Sub ${Stage}-${Tenant}-${Microservice}-db-parameter-group
     SecretManager:
         Description: SecretManager
-        Value: !Sub ${Stage}-${Tenant}-${Microservice}-db
+        Value: !Sub ${Stage}-${Tenant}-${Microservice}-document-db
         Export:
-            Name: !Sub ${Stage}-${Tenant}-${Microservice}-db-secret
+            Name: !Sub ${Stage}-${Tenant}-${Microservice}-document-db-secret
     Parameter:
         Description: Parameter
         Value: !Ref Parameter
         Export:
-            Name: !Sub ${Stage}-${Tenant}-${Microservice}-db-parameter
+            Name: !Sub ${Stage}-${Tenant}-${Microservice}-document-db-parameter

@@ -44,6 +44,7 @@ export class Logger implements ILogger {
   }
 
   private flush(...args: unknown[]): void {
+    if (process.env.NODE_ENV === 'test') return;
     const { tracing_id } = this;
     const str = JSON.stringify;
     const mapper = (v: unknown) => (typeof v === 'object' ? str(v) : v);

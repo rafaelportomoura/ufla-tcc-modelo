@@ -13,6 +13,11 @@ describe('Test Suit - Logger', () => {
   beforeEach(() => {
     Sinon.restore();
     console_stub = Sinon.stub(console, 'log').resolves();
+    process.env.NODE_ENV = 'dev';
+  });
+
+  afterEach(() => {
+    process.env.NODE_ENV = 'test';
   });
 
   for (const [level, { should_log, should_not_log }] of Object.entries(MockLogger.createTestSchema()))

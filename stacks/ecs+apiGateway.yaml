@@ -462,12 +462,12 @@ Resources:
                     Value: !Ref LogLevel
                   - Name: MICROSERVICE
                     Value: !Ref Microservice
-                  - Name: MONGO_SECRET
+                  - Name: DOCUMENT_SECRET
                     Value:
-                        Fn::ImportValue: !Sub ${Stage}-${Tenant}-${Microservice}-db-secret
-                  - Name: MONGO_PARAMS
+                        Fn::ImportValue: !Sub ${Stage}-${Tenant}-${Microservice}-document-db-secret
+                  - Name: DOCUMENT_PARAMS
                     Value:
-                        Fn::ImportValue: !Sub ${Stage}-${Tenant}-${Microservice}-db-parameter
+                        Fn::ImportValue: !Sub ${Stage}-${Tenant}-${Microservice}-document-db-parameter
                 Image: !Ref Image
                 LogConfiguration:
                     LogDriver: awslogs

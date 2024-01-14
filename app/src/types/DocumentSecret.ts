@@ -1,10 +1,10 @@
-export type MongoSecret = {
+export type DocumentSecret = {
   username: string;
 
   password: string;
 };
 
-export type MongoParams = {
+export type DocumentParams = {
   host: string;
 
   database: string;
