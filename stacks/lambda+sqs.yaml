@@ -21,8 +21,6 @@ Parameters:
         Type: List<AWS::EC2::SecurityGroup::Id>
     SubnetIdsList:
         Type: List<AWS::EC2::Subnet::Id>
-    CodePrefix:
-        Type: String
     MongoSecret:
         Type: String
 
@@ -36,7 +34,7 @@ Globals:
                 TENANT: !Ref Tenant
                 REGION: !Ref AWS::Region
                 ACCOUNT_NUMBER: !Ref AWS::AccountId
-                CODE_PREFIX: !Ref CodePrefix
+                MICROSERVICE: !Ref Microservice
                 MONGO_SECRET: !Ref MongoSecret
 
 Resources:
@@ -85,6 +83,10 @@ Resources:
                 Value: !Ref AWS::StackName
               - Key: StackId
                 Value: !Ref AWS::StackId
+              - Key: Region
+                Value: !Ref AWS::Region
+              - Key: Microservice
+                Value: !Ref Microservice
 
     # AUTHORIZER
     Lambda:
@@ -105,6 +107,8 @@ Resources:
                 Tenant: !Ref Tenant
                 StackName: !Ref AWS::StackName
                 StackId: !Ref AWS::StackId
+                Region: !Ref AWS::Region
+                Microservice: !Ref Microservice
             Environment:
                 Variables:
                     LOG_LEVEL: !Ref LogLevel
@@ -136,6 +140,10 @@ Resources:
                 Value: !Ref AWS::StackName
               - Key: StackId
                 Value: !Ref AWS::StackId
+              - Key: Region
+                Value: !Ref AWS::Region
+              - Key: Microservice
+                Value: !Ref Microservice
 
 
     SQS:
@@ -163,6 +171,10 @@ Resources:
                 Value: !Ref AWS::StackName
               - Key: StackId
                 Value: !Ref AWS::StackId
+              - Key: Region
+                Value: !Ref AWS::Region
+              - Key: Microservice
+                Value: !Ref Microservice
 
 
     DLQ:
@@ -187,6 +199,10 @@ Resources:
                 Value: !Ref AWS::StackName
               - Key: StackId
                 Value: !Ref AWS::StackId
+              - Key: Region
+                Value: !Ref AWS::Region
+              - Key: Microservice
+                Value: !Ref Microservice
 
     QueuePolicy:
         Type: AWS::SQS::QueuePolicy

@@ -26,6 +26,10 @@ Resources:
                 Value: !Ref AWS::StackName
               - Key: StackId
                 Value: !Ref AWS::StackId
+              - Key: Region
+                Value: !Ref AWS::Region
+              - Key: Microservice
+                Value: !Ref Microservice
               - Key: Name
                 Value: !Sub ${Stage}-${Tenant}-${Microservice}
 

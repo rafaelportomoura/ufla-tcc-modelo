@@ -12,11 +12,11 @@ Parameters:
     VPCId:
         Type: AWS::EC2::VPC::Id
         Description: Id of VPC for EC2
-    AuthorizerFunction:
-        Type: String
     SubnetIdList:
         Type: List<AWS::EC2::Subnet::Id>
         Description: VPC subnets list
+    AuthorizerFunction:
+        Type: String
     MinContainers:
         Type: Number
         Description: Min containers to scale to
@@ -40,6 +40,11 @@ Parameters:
           - true
           - false
         Default: false
+    MongoSecret:
+        Type: String
+    Image:
+        Type: String
+        Description: ECR Image
     LogLevel:
         Type: String
         AllowedValues:
@@ -49,13 +54,6 @@ Parameters:
           - info
           - verbose
           - debug
-    CodePrefix:
-        Type: String
-    MongoSecret:
-        Type: String
-    Image:
-        Type: String
-        Description: ECR Image
 
 Conditions:
     IsPrivateSubnet: !Equals [!Ref HasPrivateSubnet, true]
@@ -126,6 +124,8 @@ Resources:
                 Name: !Sub ${Stage}-${Tenant}-${Microservice}-api
                 StackName: !Ref AWS::StackName
                 StackId: !Ref AWS::StackId
+                Region: !Ref AWS::Region
+                Microservice: !Ref Microservice
 
     ApiMapping:
         Type: AWS::ApiGatewayV2::ApiMapping
@@ -159,6 +159,10 @@ Resources:
                 Value: !Ref AWS::StackName
               - Key: StackId
                 Value: !Ref AWS::StackId
+              - Key: Region
+                Value: !Ref AWS::Region
+              - Key: Microservice
+                Value: !Ref Microservice
 
     Authorizer:
         Type: AWS::ApiGatewayV2::Authorizer
@@ -199,6 +203,10 @@ Resources:
                 Value: !Ref AWS::StackName
               - Key: StackId
                 Value: !Ref AWS::StackId
+              - Key: Region
+                Value: !Ref AWS::Region
+              - Key: Microservice
+                Value: !Ref Microservice
 
     # ---------------------------------------------
     # LOAD BALANCER
@@ -228,6 +236,10 @@ Resources:
                 Value: !Ref AWS::StackName
               - Key: StackId
                 Value: !Ref AWS::StackId
+              - Key: Region
+                Value: !Ref AWS::Region
+              - Key: Microservice
+                Value: !Ref Microservice
 
     LBSecurityGroup:
         Type: AWS::EC2::SecurityGroup
@@ -239,6 +251,21 @@ Resources:
                 FromPort: 80
                 ToPort: 80
                 CidrIp: 0.0.0.0/0
+            Tags:
+              - Key: Service
+                Value: VPC
+              - Key: Resource
+                Value: SecurityGroup
+              - Key: Name
+                Value: !Sub ${Stage}-${Tenant}-${Microservice}-alb-sg
+              - Key: StackName
+                Value: !Ref AWS::StackName
+              - Key: StackId
+                Value: !Ref AWS::StackId
+              - Key: Region
+                Value: !Ref AWS::Region
+              - Key: Microservice
+                Value: !Ref Microservice
 
     ListenerHTTPS:
         Type: AWS::ElasticLoadBalancingV2::Listener
@@ -273,6 +300,10 @@ Resources:
                 Value: !Ref AWS::StackName
               - Key: StackId
                 Value: !Ref AWS::StackId
+              - Key: Region
+                Value: !Ref AWS::Region
+              - Key: Microservice
+                Value: !Ref Microservice
 
     # ---------------------------------------------
     # FARGATE
@@ -310,6 +341,10 @@ Resources:
                 Value: !Ref AWS::StackName
               - Key: StackId
                 Value: !Ref AWS::StackId
+              - Key: Region
+                Value: !Ref AWS::Region
+              - Key: Microservice
+                Value: !Ref Microservice
 
     ExecutionRole:
         Type: "AWS::IAM::Role"
@@ -341,6 +376,10 @@ Resources:
                 Value: !Ref AWS::StackName
               - Key: StackId
                 Value: !Ref AWS::StackId
+              - Key: Region
+                Value: !Ref AWS::Region
+              - Key: Microservice
+                Value: !Ref Microservice
 
 
     # ---------------------------------------------
@@ -366,6 +405,10 @@ Resources:
                 Value: !Ref AWS::StackName
               - Key: StackId
                 Value: !Ref AWS::StackId
+              - Key: Region
+                Value: !Ref AWS::Region
+              - Key: Microservice
+                Value: !Ref Microservice
 
     TaskDefinition:
         Type: AWS::ECS::TaskDefinition
@@ -385,8 +428,8 @@ Resources:
                     Value: !Ref Tenant
                   - Name: LOG_LEVEL
                     Value: !Ref LogLevel
-                  - Name: CODE_PREFIX
-                    Value: !Ref CodePrefix
+                  - Name: MICROSERVICE
+                    Value: !Ref Microservice
                   - Name: MONGO_SECRET
                     Value: !Ref MongoSecret
                 Image: !Ref Image
@@ -415,6 +458,10 @@ Resources:
                 Value: !Ref AWS::StackName
               - Key: StackId
                 Value: !Ref AWS::StackId
+              - Key: Region
+                Value: !Ref AWS::Region
+              - Key: Microservice
+                Value: !Ref Microservice
 
     ServiceSecurityGroup:
         Type: AWS::EC2::SecurityGroup
@@ -426,6 +473,21 @@ Resources:
                 FromPort: 80
                 ToPort: 80
                 SourceSecurityGroupId: !Ref LBSecurityGroup
+            Tags:
+              - Key: Service
+                Value: VPC
+              - Key: Resource
+                Value: SecurityGroup
+              - Key: Name
+                Value: !Sub ${Stage}-${Tenant}-${Microservice}-service-sg
+              - Key: StackName
+                Value: !Ref AWS::StackName
+              - Key: StackId
+                Value: !Ref AWS::StackId
+              - Key: Region
+                Value: !Ref AWS::Region
+              - Key: Microservice
+                Value: !Ref Microservice
 
     Service:
         Type: AWS::ECS::Service
@@ -459,6 +521,10 @@ Resources:
                 Value: !Ref AWS::StackName
               - Key: StackId
                 Value: !Ref AWS::StackId
+              - Key: Region
+                Value: !Ref AWS::Region
+              - Key: Microservice
+                Value: !Ref Microservice
 
     # -----------------------------------------------------------
     #  AUTO SCALING
@@ -504,6 +570,10 @@ Resources:
                 Value: !Ref AWS::StackName
               - Key: StackId
                 Value: !Ref AWS::StackId
+              - Key: Region
+                Value: !Ref AWS::Region
+              - Key: Microservice
+                Value: !Ref Microservice
 
     AutoScalingTarget:
         Type: AWS::ApplicationAutoScaling::ScalableTarget
