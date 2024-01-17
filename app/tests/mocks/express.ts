@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 
 export class MockExpress {
   static response(res?: Record<string, unknown>): Response {
@@ -16,7 +16,15 @@ export class MockExpress {
     } as unknown as Response;
   }
 
-  static request(request?: Record<string, unknown>): Request {
+  static request(request: Record<string, unknown> = {}): Request {
     return request as unknown as Request;
+  }
+
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  static next(c?: Function): NextFunction {
+    const x = (a: Error) => {
+      throw a;
+    };
+    return (c || x) as NextFunction;
   }
 }
