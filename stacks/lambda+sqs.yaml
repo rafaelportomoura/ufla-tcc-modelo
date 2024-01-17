@@ -88,10 +88,6 @@ Resources:
                 Value: !Ref AWS::Region
               - Key: Microservice
                 Value: !Ref Microservice
-              - Key: Stage
-                Value: !Ref Stage
-              - Key: Tenant
-                Value: !Ref Tenant
 
     # AUTHORIZER
     Lambda:

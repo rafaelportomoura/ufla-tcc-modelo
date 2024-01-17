@@ -37,6 +37,8 @@ Resources:
                 Value: !Ref Stage
               - Key: Tenant
                 Value: !Ref Tenant
+              - Key: Region
+                Value: !Ref AWS::Region
               - Key: Microservice
                 Value: !Ref Microservice
               - Key: Name
@@ -93,6 +95,8 @@ Resources:
                 Value: !Ref Stage
               - Key: Tenant
                 Value: !Ref Tenant
+              - Key: Region
+                Value: !Ref AWS::Region
               - Key: Microservice
                 Value: !Ref Microservice
               - Key: Name
@@ -117,6 +121,8 @@ Resources:
                 Value: !Ref Stage
               - Key: Tenant
                 Value: !Ref Tenant
+              - Key: Region
+                Value: !Ref AWS::Region
               - Key: Microservice
                 Value: !Ref Microservice
               - Key: Name
@@ -148,6 +154,8 @@ Resources:
                 Value: !Ref Stage
               - Key: Tenant
                 Value: !Ref Tenant
+              - Key: Region
+                Value: !Ref AWS::Region
               - Key: Microservice
                 Value: !Ref Microservice
               - Key: Name
@@ -174,6 +182,8 @@ Resources:
                 Value: !Ref Stage
               - Key: Tenant
                 Value: !Ref Tenant
+              - Key: Region
+                Value: !Ref AWS::Region
               - Key: Microservice
                 Value: !Ref Microservice
               - Key: Name
