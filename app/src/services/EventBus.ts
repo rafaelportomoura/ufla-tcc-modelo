@@ -1,15 +1,19 @@
 /* eslint-disable no-empty-function */
-import { Logger } from '../adapters/logger';
+import { FastifyBaseLogger } from 'fastify';
 import { SNS } from '../aws/sns';
-import { CONFIGURATION } from '../constants/configuration';
+import { AwsConfig } from '../types/Aws';
 import { EventBusMessageAttributes } from '../types/EventBus';
 
 export class EventBus {
+  private sns: SNS;
+
   constructor(
-    private topic = CONFIGURATION.EVENT_BUS,
-    private logger = new Logger(),
-    private sns = new SNS()
-  ) {}
+    private logger: FastifyBaseLogger,
+    private topic: string,
+    config: AwsConfig
+  ) {
+    this.sns = new SNS(config);
+  }
 
   async pub(body: unknown, message_attributes: EventBusMessageAttributes): Promise<void> {
     this.logger.debug('EventBus.publish(', body, message_attributes, ')');

@@ -12,7 +12,7 @@ export class SSM {
 
     const response = await this.client.send(command);
 
-    const value = JSON.parse(response.Parameter.Value);
+    const value = JSON.parse(response.Parameter?.Value as string);
 
     return value as T;
   }

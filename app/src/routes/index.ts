@@ -1,7 +1,7 @@
-import { Router } from 'express';
-import { example_routes } from './Example';
+import { FastifyInstance, FastifyPluginOptions, FastifyRegisterOptions } from 'fastify';
+import { route } from './route';
 
-const router = Router();
-router.use('/example', example_routes);
-
-export { router };
+export function router(server: FastifyInstance, _: FastifyRegisterOptions<FastifyPluginOptions>, done: () => void) {
+  server.register(route, { prefix: '/route' });
+  done();
+}
