@@ -8,4 +8,6 @@ export type EventBusMessageAttributes = {
   type: MessageAttributeValue;
 
   status: MessageAttributeValue;
+
+  notification: MessageAttributeValue;
 };
