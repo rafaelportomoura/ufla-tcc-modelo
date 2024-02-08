@@ -3,5 +3,5 @@ import { CONFIGURATION } from './configuration';
 
 export const AWS_CONFIGURATION = {
   region: CONFIGURATION.REGION,
-  credentials: fromIni({ profile: 'tcc' })
+  credentials: CONFIGURATION.STAGE === 'development' ? fromIni({ profile: 'tcc' }) : undefined
 } as const;

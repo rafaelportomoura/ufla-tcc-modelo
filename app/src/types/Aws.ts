@@ -1,3 +1,6 @@
-import { AWS_CONFIGURATION } from '../constants/aws';
+import { fromIni as from_ini } from '@aws-sdk/credential-providers';
 
-export type AwsConfig = typeof AWS_CONFIGURATION;
+export type AwsParams = {
+  region: string;
+  credentials?: Awaited<ReturnType<typeof from_ini>>;
+};
