@@ -63,7 +63,7 @@
       }
     ],
     "no-param-reassign": [
-      2,
+      0,
       {
         "props": false
       }
